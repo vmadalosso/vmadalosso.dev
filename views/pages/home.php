@@ -77,7 +77,8 @@ $others = $content->projects(Placement::Other);
                                     <cite class="block font-serif text-[1.125rem] leading-snug text-ink"><?= e($t->pick($book->title)) ?></cite>
                                     <span class="mt-0.5 block text-sm text-muted"><?= e($book->author) ?></span>
                                     <?php if ($book->note !== null): ?>
-                                        <p class="mt-1.5 text-sm leading-relaxed text-muted"><?= e($t->pick($book->note)) ?></p>
+                                        <?php /* Nota pessoal: serifa itálica e cinza, como uma anotação na margem. */ ?>
+                                        <p class="mt-1.5 font-serif text-[0.9375rem] leading-snug text-muted italic"><?= e($t->pick($book->note)) ?></p>
                                     <?php endif; ?>
                                 </li>
                             <?php endforeach; ?>
