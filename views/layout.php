@@ -52,7 +52,7 @@ $person = [
     <meta property="og:url" content="<?= e($canonical) ?>">
     <meta property="og:locale" content="<?= e($locale->ogLocale()) ?>">
     <?php /* Imagem da prévia de link (WhatsApp, LinkedIn etc.), uma por idioma, 1200x630. */ ?>
-    <meta property="og:image" content="<?= e(App::BASE_URL . $this->asset("/assets/img/og-{$locale->value}.png")) ?>">
+    <meta property="og:image" content="<?= e(App::BASE_URL . $this->asset("/assets/img/og-{$locale->value}.jpg")) ?>">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="<?= e($profile->name . ' · ' . $t->pick($profile->role)) ?>">
