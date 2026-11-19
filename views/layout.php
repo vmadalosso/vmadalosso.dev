@@ -51,8 +51,12 @@ $person = [
     <meta property="og:description" content="<?= e($meta['description']) ?>">
     <meta property="og:url" content="<?= e($canonical) ?>">
     <meta property="og:locale" content="<?= e($locale->ogLocale()) ?>">
-    <meta property="og:image" content="<?= e(App::BASE_URL . $profile->avatar) ?>">
-    <meta name="twitter:card" content="summary">
+    <?php /* Imagem da prévia de link (WhatsApp, LinkedIn etc.), uma por idioma, 1200x630. */ ?>
+    <meta property="og:image" content="<?= e(App::BASE_URL . $this->asset("/assets/img/og-{$locale->value}.png")) ?>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="<?= e($profile->name . ' · ' . $t->pick($profile->role)) ?>">
+    <meta name="twitter:card" content="summary_large_image">
 
     <meta name="theme-color" content="#f7f5f0" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#141318" media="(prefers-color-scheme: dark)">
