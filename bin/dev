@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Ambiente de desenvolvimento: Tailwind em modo watch + servidor embutido do PHP.
+#
+# Uso: composer dev   (ou bin/dev). Porta padrão 8000; para trocar: PORT=8080 bin/dev
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+bin/tailwind --watch=always &
+TAILWIND_PID=$!
+trap 'kill "$TAILWIND_PID" 2>/dev/null || true' EXIT INT TERM
+
+PORT="${PORT:-8000}"
+echo "→ http://localhost:$PORT"
+php -S "localhost:$PORT" -t public public/index.php

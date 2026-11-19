@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Roda o Tailwind CSS v4 pelo CLI standalone: um binário só, sem Node nem npm.
+# Na primeira vez baixa a versão fixada abaixo para .tools/ e confere o SHA-256 da release.
+#
+# Uso: bin/tailwind [--watch=always | --minify]
+set -euo pipefail
+
+VERSION="v4.3.5"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+case "$(uname -s)-$(uname -m)" in
+    Darwin-arm64)  ASSET="tailwindcss-macos-arm64" ;;
+    Darwin-x86_64) ASSET="tailwindcss-macos-x64" ;;
+    Linux-x86_64)  ASSET="tailwindcss-linux-x64" ;;
+    Linux-aarch64) ASSET="tailwindcss-linux-arm64" ;;
+    *) echo "Plataforma não suportada: $(uname -s)-$(uname -m)" >&2; exit 1 ;;
+esac
+
+BIN="$ROOT/.tools/tailwindcss-$VERSION"
+
+if [ ! -x "$BIN" ]; then
+    echo "Baixando Tailwind $VERSION ($ASSET)..." >&2
+    mkdir -p "$ROOT/.tools"
+    TMP="$(mktemp -d)"
+    trap 'rm -rf "$TMP"' EXIT
+
+    RELEASE="https://github.com/tailwindlabs/tailwindcss/releases/download/$VERSION"
+    curl -fsSL "$RELEASE/$ASSET" -o "$TMP/$ASSET"
+    curl -fsSL "$RELEASE/sha256sums.txt" -o "$TMP/sha256sums.txt"
+
+    # O arquivo de checksums lista "<hash>  ./<arquivo>"; conferimos só o nosso.
+    (cd "$TMP" && grep "  ./$ASSET\$" sha256sums.txt | shasum -a 256 -c - >&2)
+
+    mv "$TMP/$ASSET" "$BIN"
+    chmod +x "$BIN"
+fi
+
+cd "$ROOT"
+exec "$BIN" --input resources/css/app.css --output public/assets/css/app.css "$@"

@@ -1,0 +1,5 @@
+/vendor/
+/dist/
+/.tools/
+/public/assets/css/app.css
+.DS_Store

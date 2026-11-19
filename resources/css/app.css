@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/* Onde o Tailwind procura classes, além da detecção automática. */
+@source "../../views";
+@source "../../src";
+
+/* "dark:" vale quando o <html> tem data-theme="dark" (o script do <head> sempre define). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ── Fontes (self-hosted, só o subconjunto latino) ─────────────────────────── */
+
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/assets/fonts/instrument-sans-normal.woff2") format("woff2");
+}
+
+/* Newsreader estática: 500 nos títulos e itálico 400 nos nomes de livros e seções. */
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fonts/newsreader-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Newsreader";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/newsreader-italic-400.woff2") format("woff2");
+}
+
+/* ── Cores ─────────────────────────────────────────────────────────────────────
+   Claro: papel quente. Escuro: grafite com o roxo da Dracula como destaque.
+   Contraste medido (WCAG): texto ≥ 15:1, texto secundário ≥ 6.5:1, destaque ≥ 6.6:1,
+   bordas de controle ≥ 3.2:1. Mexeu numa cor? Meça de novo. */
+
+:root {
+  --paper: #f7f5f0;
+  --surface: #fdfcf9;
+  --ink: #1c1a17;
+  --muted: #5c574e;
+  --line: #e5e0d6; /* divisórias e borda de card: devem recuar */
+  --control: #8f877a; /* botões, sublinhados, bordas que precisam aparecer (≥ 3:1) */
+  --accent: #5b44b2;
+  --live: #2f7d4f;
+  --building: #a86b12;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --paper: #141318;
+  --surface: #1b1a21;
+  --ink: #ecebf2;
+  --muted: #a3a0b4;
+  --line: #2b2934;
+  --control: #6d6980;
+  --accent: #bd93f9;
+  --live: #50fa7b;
+  --building: #f1fa8c;
+  color-scheme: dark;
+}
+
+/* Sem JavaScript não existe data-theme: segue a preferência do sistema. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --paper: #141318;
+    --surface: #1b1a21;
+    --ink: #ecebf2;
+    --muted: #a3a0b4;
+    --line: #2b2934;
+    --control: #6d6980;
+    --accent: #bd93f9;
+    --live: #50fa7b;
+    --building: #f1fa8c;
+    color-scheme: dark;
+  }
+}
+
+@theme {
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader", ui-serif, Georgia, serif;
+}
+
+/* "inline" porque as cores apontam para as variáveis acima, que mudam com o tema. */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-control: var(--control);
+  --color-accent: var(--accent);
+  --color-live: var(--live);
+  --color-building: var(--building);
+}
+
+@layer base {
+  html {
+    background-color: var(--paper);
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Texto alinhado à esquerda (sem justify, que abre buracos entre as palavras na web).
+     "pretty" evita palavra sozinha na última linha dos parágrafos. */
+  p,
+  li {
+    text-wrap: pretty;
+  }
+}

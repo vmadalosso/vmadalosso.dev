@@ -1,0 +1,36 @@
+{
+    "name": "vmadalosso/site",
+    "description": "Site pessoal e portfólio de Vitor Madalosso: PHP moderno, sem framework.",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "scripts": {
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "bin/dev"
+        ],
+        "css": "bin/tailwind --minify",
+        "build": [
+            "bin/tailwind --minify",
+            "@php bin/build.php"
+        ]
+    },
+    "scripts-descriptions": {
+        "dev": "Servidor local + Tailwind em modo watch (http://localhost:8000)",
+        "css": "Compila o CSS minificado",
+        "build": "Gera o site estático em dist/"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
