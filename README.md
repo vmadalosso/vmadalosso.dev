@@ -64,7 +64,16 @@ views/        layout, páginas e partials
 composer build     # CSS minificado + dist/
 ```
 
-A pasta `dist/` é HTML estático e pode ir para qualquer host. Como o domínio está na Cloudflare, o caminho natural é o Cloudflare Pages.
+A pasta `dist/` é HTML estático e pode ir para qualquer host.
+
+O deploy é automático: a cada push na `main`, o workflow `.github/workflows/deploy.yml` roda o `composer build` e publica `dist/` no Cloudflare Pages (projeto `vmadalosso-dev`). Ele precisa de dois secrets no repositório:
+
+| Secret | O que é |
+| --- | --- |
+| `CLOUDFLARE_API_TOKEN` | Token da Cloudflare com a permissão "Account · Cloudflare Pages · Edit" |
+| `CLOUDFLARE_ACCOUNT_ID` | ID da conta na Cloudflare |
+
+O arquivo `public/_headers` define os cabeçalhos HTTP do Pages: segurança, e cache longo para fontes e CSS.
 
 ## Decisões
 

@@ -29,7 +29,13 @@ if [ ! -x "$BIN" ]; then
     curl -fsSL "$RELEASE/sha256sums.txt" -o "$TMP/sha256sums.txt"
 
     # O arquivo de checksums lista "<hash>  ./<arquivo>"; conferimos só o nosso.
-    (cd "$TMP" && grep "  ./$ASSET\$" sha256sums.txt | shasum -a 256 -c - >&2)
+    # sha256sum existe no Linux (e em macOS recentes); shasum é o fallback.
+    if command -v sha256sum >/dev/null; then
+        verify() { sha256sum -c -; }
+    else
+        verify() { shasum -a 256 -c -; }
+    fi
+    (cd "$TMP" && grep "  ./$ASSET\$" sha256sums.txt | verify >&2)
 
     mv "$TMP/$ASSET" "$BIN"
     chmod +x "$BIN"
