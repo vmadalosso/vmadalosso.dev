@@ -9,6 +9,10 @@ name: Deploy
 on:
   push:
     branches: [main]
+    # Mudanças só no README ou nos prints não precisam publicar o site de novo.
+    paths-ignore:
+      - 'README*.md'
+      - 'docs/**'
   workflow_dispatch:
 
 permissions:

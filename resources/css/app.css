@@ -36,7 +36,7 @@
 
 /* ── Cores ─────────────────────────────────────────────────────────────────────
    Claro: papel quente. Escuro: grafite com o roxo da Dracula como destaque.
-   Contraste medido (WCAG): texto ≥ 15:1, texto secundário ≥ 6.5:1, destaque ≥ 6.6:1,
+   Contraste medido (WCAG): texto ≥ 14:1, texto secundário ≥ 6.5:1, destaque ≥ 6.6:1,
    bordas de controle ≥ 3.2:1. Mexeu numa cor? Meça de novo. */
 
 :root {
