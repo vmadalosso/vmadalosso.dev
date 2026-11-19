@@ -30,7 +30,8 @@
         </a>
     <?php endif; ?>
 
-    <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-3 lg:flex-col lg:gap-3.5">
+    <?php /* No celular, grade de 2 colunas: com flex-wrap a 2ª coluna de cada linha começava num ponto diferente. */ ?>
+    <ul class="mt-8 grid grid-cols-[auto_auto] justify-start gap-x-6 gap-y-3 sm:flex sm:flex-wrap lg:flex-col lg:gap-3.5">
         <?php foreach ($profile->visibleLinks() as $link): ?>
             <li>
                 <?php /* rel="me": diz a outros sites que este perfil é seu (verificação no Mastodon, Bluesky etc.). */ ?>
@@ -45,7 +46,7 @@
         <?php endforeach; ?>
 
         <?php if ($profile->email !== null): ?>
-            <li>
+            <li class="col-span-2">
                 <a href="mailto:<?= e($profile->email) ?>"
                    class="inline-flex items-center gap-2.5 text-[0.9375rem] text-muted transition-colors hover:text-ink">
                     <?= $this->icon('mail', 'size-4 shrink-0') ?>
